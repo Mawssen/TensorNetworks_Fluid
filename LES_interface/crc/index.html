@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LES Filter — CRC</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:#0a0e1a;color:#e0e4f0;
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:40px 20px;
+  }
+  h1{font-size:2rem;font-weight:700;
+    background:linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    margin-bottom:4px}
+  .sub{color:#7a82a0;font-size:.92rem;margin-bottom:8px}
+  .conn{font-size:.8rem;margin-bottom:28px;display:flex;align-items:center;gap:6px}
+  .conn .dot{width:8px;height:8px;border-radius:50%}
+  .conn .dot.ok{background:#34d399}
+  .conn .dot.fail{background:#f87171}
+  .conn .dot.check{background:#fbbf24;animation:pulse 1s infinite}
+  .card{
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;padding:28px 32px;width:100%;max-width:700px;
+    backdrop-filter:blur(12px);margin-bottom:24px;
+  }
+  .ct{font-size:1.05rem;font-weight:600;color:#a0aec0;margin-bottom:18px;
+    display:flex;align-items:center;gap:8px}
+  .ct .ic{width:18px;height:18px;border-radius:5px;
+    background:linear-gradient(135deg,#60a5fa,#a78bfa)}
+  .ct .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+  label{display:block;font-size:.82rem;color:#8892b0;margin-bottom:5px;font-weight:500}
+  select,input[type="text"],input[type="number"]{
+    width:100%;padding:10px 14px;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+    border-radius:9px;color:#e0e4f0;font-size:.9rem;
+    font-family:'JetBrains Mono','Fira Code',monospace;
+    outline:none;transition:border-color .2s;margin-bottom:14px;
+    -webkit-appearance:none;appearance:none;
+  }
+  input:focus,select:focus{border-color:rgba(96,165,250,.5);box-shadow:0 0 0 3px rgba(96,165,250,.1)}
+  input::placeholder{color:#4a5270}
+  select{cursor:pointer}
+  .row{display:flex;gap:14px}.row>div{flex:1}
+  .btn{
+    padding:12px 16px;
+    border:none;border-radius:9px;color:#fff;font-size:.92rem;font-weight:600;
+    cursor:pointer;transition:opacity .2s,transform .1s;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .btn-full{width:100%;margin-top:4px}
+  .btn-run{background:linear-gradient(135deg,#3b82f6,#7c3aed)}
+  .btn-stop{background:linear-gradient(135deg,#ef4444,#dc2626);padding:7px 14px;font-size:.8rem}
+  .btn-sm{padding:5px 12px;font-size:.76rem;border-radius:6px}
+  .btn-ghost{background:rgba(255,255,255,.06);color:#8892b0;font-weight:500}
+  .btn-ghost:hover{background:rgba(255,255,255,.1);color:#e0e4f0}
+  .btn:hover{opacity:.9}.btn:active{transform:scale(.98)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .spinner{display:none;width:16px;height:16px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+  .btn.loading .spinner{display:inline-block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .hidden{display:none}
+  .toggle-btn{font-size:.78rem;color:#6b7394;cursor:pointer;text-decoration:underline;margin-bottom:14px;display:inline-block}
+  .toggle-btn:hover{color:#a0aec0}
+
+  .rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .ri{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:12px}
+  .ri.full{grid-column:1/-1}
+  .rl{font-size:.72rem;color:#6b7394;letter-spacing:.5px;margin-bottom:3px}
+  .rv{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.9rem;color:#c4cbf5;word-break:break-all}
+  .rv.hi{color:#60a5fa;font-size:1rem;font-weight:600}
+  .rv.g{color:#34d399}.rv.a{color:#fbbf24}.rv.p{color:#f472b6}.rv.r{color:#f87171}
+  .dv{height:1px;background:rgba(255,255,255,.06);margin:16px 0}
+  .sl{font-size:.78rem;color:#6b7394;letter-spacing:1px;margin-bottom:10px;font-weight:600}
+  .err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:9px;padding:11px 14px;color:#fca5a5;font-size:.88rem;margin-bottom:14px}
+
+  /* Active jobs */
+  .active-job{
+    padding:14px;margin-bottom:10px;
+    background:rgba(255,255,255,.03);border:1px solid rgba(96,165,250,.15);
+    border-radius:10px;
+  }
+  .aj-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .aj-file{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.85rem;color:#c4cbf5;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+  .aj-rows{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+  .aj-label{font-size:.75rem;color:#6b7394}
+  .aj-val{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.82rem;color:#93c5fd}
+  .progress-bar{height:4px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;margin-top:4px}
+  .progress-bar .fill{height:100%;width:0%;background:linear-gradient(90deg,#3b82f6,#a78bfa);border-radius:4px;transition:width .4s}
+  .progress-bar .fill.done{background:linear-gradient(90deg,#34d399,#10b981)}
+  .progress-bar .fill.pulse{animation:pulse 1.5s ease-in-out infinite}
+
+  .time-badge{display:inline-block;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.2);border-radius:6px;padding:2px 9px;font-size:.78rem;color:#93c5fd;margin-left:8px}
+
+  .hist-item{padding:12px 14px;border-radius:9px;cursor:pointer;transition:background .15s;margin-bottom:6px;border:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:10px}
+  .hist-item:hover{background:rgba(255,255,255,.05)}
+  .hist-item.active{border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.06)}
+  .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+  .dot.done{background:#34d399}.dot.error,.dot.cancelled,.dot.stopped{background:#f87171}
+  .dot.running,.dot.queued{background:#60a5fa;animation:pulse 1s infinite}
+  .hist-body{flex:1;min-width:0}
+  .hist-file{font-size:.85rem;color:#c4cbf5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'JetBrains Mono','Fira Code',monospace}
+  .hist-meta{font-size:.73rem;color:#6b7394;margin-top:2px;display:flex;gap:10px;flex-wrap:wrap}
+  .hist-meta span{white-space:nowrap}
+  .hist-count{font-size:.8rem;color:#6b7394;font-weight:400}
+  .no-hist{color:#4a5270;font-size:.88rem;text-align:center;padding:16px}
+</style>
+</head>
+<body>
+
+<h1>LES Box Filter</h1>
+<p class="sub">CRC Pitt (H2P) — Remote Job Manager</p>
+<div class="conn" id="connStatus"><span class="dot check"></span> Checking CRC connection...</div>
+
+<!-- Input -->
+<div class="card">
+  <div class="ct"><div class="ic"></div> Submit Job</div>
+
+  <label>Dataset</label>
+  <select id="dataset" onchange="onDatasetChange()">
+    <option value="/ix/pgivi/moe32/LES_filter/U_t1.mat" data-n="0">JHS 128</option>
+    <option value="/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/U_t1.mat" data-n="0">JHS 1024</option>
+    <option value="/ix/pgivi/moe32/Daniel_Forced_Isotropic/data_2/rstrt.0018.5.bin" data-n="1024">Scalar 1024</option>
+    <option value="XXXXX" data-n="1024">Daniel 1024</option>
+    <option value="/ix/pgivi/moe32/LES_filter/Daniel_U_32.bin" data-n="32">Daniel 32</option>
+  </select>
+  <label style="margin-top:4px">Input File Path (on CRC)</label>
+  <input type="text" id="filePath" placeholder="/ix/pgivi/moe32/..."
+    value="/ix/pgivi/moe32/LES_filter/U_t1.mat">
+
+  <label>Output Directory (on CRC)</label>
+  <input type="text" id="outDir" placeholder="/ix/pgivi/moe32/LES_filter"
+    value="/ix/pgivi/moe32/LES_filter">
+
+  <div class="row">
+    <div>
+      <label>Filter Width (δ)</label>
+      <input type="number" id="filterSize" value="8" min="2" step="1">
+    </div>
+  </div>
+
+  <label>Output Filename</label>
+  <input type="text" id="outName" placeholder="(auto-generated)" value="">
+  <div style="font-size:.75rem;color:#4a5270;margin-top:-10px;margin-bottom:14px">
+    Leave blank for default: filtered_&lt;input&gt;_&lt;M&gt;x&lt;M&gt;x&lt;M&gt;.mat
+  </div>
+
+  <div class="row">
+    <div>
+      <label>CPUs</label>
+      <input type="number" id="cpus" value="2" min="1" step="1">
+    </div>
+  </div>
+
+  <span class="toggle-btn" onclick="toggleAdvanced()">Advanced options</span>
+  <div class="hidden" id="advOpts">
+    <div class="row">
+      <div>
+        <label>Memory</label>
+        <input type="text" id="mem" value="64G" placeholder="64G">
+      </div>
+      <div>
+        <label>Wall Time</label>
+        <input type="text" id="walltime" value="02:00:00" placeholder="HH:MM:SS">
+      </div>
+    </div>
+  </div>
+
+  <div class="err hidden" id="err"></div>
+
+  <button class="btn btn-run btn-full" id="runBtn" onclick="submitJob()">
+    <span class="spinner" id="spin"></span>
+    <span id="btnText">Submit to CRC</span>
+  </button>
+</div>
+
+<!-- Active Jobs -->
+<div class="card hidden" id="activeCard">
+  <div class="ct"><div class="ic"></div> Active Jobs <span class="hist-count" id="activeCount"></span></div>
+  <div id="activeList"></div>
+</div>
+
+<!-- Results -->
+<div class="card hidden" id="resCard">
+  <div class="ct"><div class="ic"></div> Results <span class="time-badge" id="totalTime"></span></div>
+
+  <div class="hidden" id="resError">
+    <div class="ri full" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.05)">
+      <div class="rl">Error</div>
+      <div class="rv r" id="resErrorMsg" style="white-space:pre-wrap"></div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="rg">
+      <div class="ri"><div class="rl">File</div><div class="rv" id="resErrFile"></div></div>
+      <div class="ri"><div class="rl">Timestamp</div><div class="rv" id="resErrTime"></div></div>
+    </div>
+  </div>
+
+  <div class="hidden" id="resSuccess">
+    <div class="sl">Grid Info</div>
+    <div class="rg">
+      <div class="ri"><div class="rl">Original Size</div><div class="rv hi" id="oSize"></div></div>
+      <div class="ri"><div class="rl">Filtered Size</div><div class="rv hi" id="fSize"></div></div>
+      <div class="ri"><div class="rl">Filter Width (δ)</div><div class="rv" id="dOut"></div></div>
+      <div class="ri"><div class="rl">Threads Used</div><div class="rv" id="thrOut"></div></div>
+    </div>
+    <div class="sl">Timing</div>
+    <div class="rg">
+      <div class="ri"><div class="rl">Load Time</div><div class="rv" id="tLoad"></div></div>
+      <div class="ri"><div class="rl">Filter Time</div><div class="rv" id="tFilt"></div></div>
+      <div class="ri"><div class="rl">SGS Stress Time</div><div class="rv" id="tTau"></div></div>
+      <div class="ri"><div class="rl">Total Time</div><div class="rv g" id="tTot"></div></div>
+    </div>
+    <div class="dv"></div>
+    <div class="sl">Physics Checks</div>
+    <div class="rg">
+      <div class="ri"><div class="rl">mean(u)</div><div class="rv" id="mU"></div></div>
+      <div class="ri"><div class="rl">mean(&lt;u&gt;)</div><div class="rv" id="mUf"></div></div>
+      <div class="ri full"><div class="rl">mean(u) − mean(&lt;u&gt;)</div><div class="rv g" id="mD"></div></div>
+    </div>
+    <div class="dv"></div>
+    <div class="sl">Energy Decomposition</div>
+    <div class="rg">
+      <div class="ri"><div class="rl">r_total</div><div class="rv" id="rT"></div></div>
+      <div class="ri"><div class="rl">R_f</div><div class="rv" id="Rf"></div></div>
+      <div class="ri"><div class="rl">mean(τ)</div><div class="rv a" id="mTau"></div></div>
+      <div class="ri"><div class="rl">r_total − R_f − mean(τ)</div><div class="rv g" id="res"></div></div>
+      <div class="ri full"><div class="rl">R_f / r_total</div><div class="rv p" id="rat"></div></div>
+    </div>
+    <div class="dv"></div>
+    <div class="sl">Output</div>
+    <div class="rg">
+      <div class="ri full"><div class="rl">Saved To (on CRC)</div><div class="rv g" id="outF"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- History -->
+<div class="card" id="histCard">
+  <div class="ct">
+    <div class="ic"></div> History <span class="hist-count" id="histCount"></span>
+    <div class="right">
+      <button class="btn btn-sm btn-ghost" onclick="clearHistory()">Clear</button>
+    </div>
+  </div>
+  <div id="histList"><div class="no-hist">No runs yet.</div></div>
+</div>
+
+<script>
+const API='http://localhost:8080';
+let pollTimer=null,selectedHistIdx=null;
+
+function show(el){el.classList.remove('hidden')}
+function hide(el){el.classList.add('hidden')}
+function $(id){return document.getElementById(id)}
+function fmt(v){
+  if(typeof v==='number'){
+    if(Math.abs(v)<1e-6&&v!==0) return v.toExponential(6);
+    return v.toPrecision(8);
+  }
+  return v;
+}
+function toggleAdvanced(){$('advOpts').classList.toggle('hidden')}
+function onDatasetChange(){$('filePath').value=$('dataset').value}
+function fmtElapsed(s){
+  const m=Math.floor(s/60),sec=Math.floor(s%60);
+  return m>0?`${m}m ${sec}s`:`${sec}s`;
+}
+
+// ── SSH check ──
+async function checkSSH(){
+  try{
+    const r=await fetch(API+'/test-ssh');
+    const d=await r.json();
+    $('connStatus').innerHTML=d.connected
+      ?'<span class="dot ok"></span> Connected to CRC ('+d.host+')'
+      :'<span class="dot fail"></span> CRC unreachable — check VPN & SSH keys';
+  }catch(e){
+    $('connStatus').innerHTML='<span class="dot fail"></span> Local server not running';
+  }
+}
+
+// ── Submit ──
+async function submitJob(){
+  const fp=$('filePath').value.trim();
+  const od=$('outDir').value.trim();
+  const delta=parseInt($('filterSize').value);
+  const cpus=parseInt($('cpus').value);
+  const mem=$('mem').value.trim();
+  const wall=$('walltime').value.trim();
+  const outName=$('outName').value.trim();
+  const errEl=$('err');
+  hide(errEl);
+
+  if(!fp){errEl.textContent='Enter input file path.';show(errEl);return}
+  if(!od){errEl.textContent='Enter output directory.';show(errEl);return}
+  if(isNaN(delta)||delta<2){errEl.textContent='δ must be ≥ 2.';show(errEl);return}
+
+  // Auto-detect grid size from dataset dropdown or filename
+  let gridSize=0;
+  if(fp.endsWith('.bin')){
+    const sel=$('dataset');
+    const opt=sel.options[sel.selectedIndex];
+    gridSize=parseInt(opt.getAttribute('data-n'))||0;
+    // Fallback: extract number from filename like Daniel_U_32.bin -> 32
+    if(!gridSize){
+      const m=fp.match(/_(\d+)\.bin$/i)||fp.match(/(\d+)\.bin$/i);
+      if(m) gridSize=parseInt(m[1]);
+    }
+    if(!gridSize){errEl.textContent='Cannot determine grid size N from filename.';show(errEl);return}
+  }
+
+  $('runBtn').disabled=true;$('runBtn').classList.add('loading');
+  $('btnText').textContent='Submitting...';
+
+  try{
+    const resp=await fetch(API+'/run',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({file_path:fp,delta,out_dir:od,cpus,mem,walltime:wall,
+        grid_size:gridSize,out_name:outName})
+    });
+    const data=await resp.json();
+    if(data.error){errEl.textContent='Error: '+data.error;show(errEl);resetBtn();return}
+    resetBtn();
+    // Start polling if not already
+    startPolling();
+  }catch(e){
+    errEl.textContent='Connection failed. Is server.py running?';
+    show(errEl);resetBtn();
+  }
+}
+
+function resetBtn(){
+  $('runBtn').disabled=false;$('runBtn').classList.remove('loading');
+  $('btnText').textContent='Submit to CRC';
+}
+
+// ── Polling — tracks ALL active jobs ──
+function startPolling(){
+  if(pollTimer) return;
+  pollTimer=setInterval(pollAllJobs,5000);
+  pollAllJobs(); // immediate first check
+}
+
+function stopPolling(){
+  if(pollTimer){clearInterval(pollTimer);pollTimer=null}
+}
+
+async function pollAllJobs(){
+  try{
+    const r=await fetch(API+'/jobs');
+    const d=await r.json();
+    const jobs=d.jobs||[];
+
+    const activeJobs=jobs.filter(j=>j.status==='queued'||j.status==='running'||j.status==='unknown');
+    const justFinished=jobs.filter(j=>j.status==='done'||j.status==='error');
+
+    renderActiveJobs(activeJobs);
+
+    // If no active jobs left, stop polling and refresh history
+    if(activeJobs.length===0){
+      stopPolling();
+      loadHistory();
+    }
+  }catch(e){}
+}
+
+function renderActiveJobs(jobs){
+  if(jobs.length===0){
+    hide($('activeCard'));
+    return;
+  }
+  show($('activeCard'));
+  $('activeCount').textContent=`(${jobs.length})`;
+  $('activeList').innerHTML=jobs.map(j=>{
+    const fn=(j.file_path||'').split('/').pop()||'—';
+    const pct=Math.max(j.pct||5,5);
+    return `
+      <div class="active-job">
+        <div class="aj-header">
+          <div class="aj-file">${fn}</div>
+          <button class="btn btn-stop" onclick="cancelJob('${j.job_id}')">Cancel</button>
+        </div>
+        <div class="aj-rows">
+          <div><div class="aj-label">Job ID</div><div class="aj-val">${j.job_id}</div></div>
+          <div><div class="aj-label">δ</div><div class="aj-val">${j.delta||'?'}</div></div>
+          <div><div class="aj-label">SLURM</div><div class="aj-val">${j.slurm_status||'—'}</div></div>
+          <div><div class="aj-label">Step</div><div class="aj-val">${j.progress||'—'}</div></div>
+          <div><div class="aj-label">Elapsed</div><div class="aj-val">${fmtElapsed(j.elapsed||0)}</div></div>
+        </div>
+        <div class="progress-bar"><div class="fill pulse" style="width:${pct}%"></div></div>
+      </div>`;
+  }).join('');
+}
+
+async function cancelJob(jobId){
+  try{await fetch(API+'/cancel',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({job_id:jobId})})}catch(e){}
+  setTimeout(pollAllJobs,1000);
+}
+
+// ── Results ──
+function showSuccessResult(d){
+  if(!d)return;
+  hide($('resError'));show($('resSuccess'));
+  $('oSize').textContent=`${d.N} × ${d.N} × ${d.N}`;
+  $('fSize').textContent=`${d.M} × ${d.M} × ${d.M}`;
+  $('dOut').textContent=d.delta;$('thrOut').textContent=d.threads;
+  $('tLoad').textContent=d.t_load+' s';$('tFilt').textContent=d.t_filter+' s';
+  $('tTau').textContent=d.t_tau+' s';$('tTot').textContent=d.t_total+' s';
+  $('totalTime').textContent=d.t_total+' s';
+  $('mU').textContent=fmt(d.mean_u);$('mUf').textContent=fmt(d.mean_uf);
+  $('mD').textContent=fmt(d.mean_diff);
+  $('rT').textContent=fmt(d.r_total);$('Rf').textContent=fmt(d.R_f);
+  $('mTau').textContent=fmt(d.mean_tau);$('res').textContent=fmt(d.residual);
+  $('rat').textContent=fmt(d.ratio);$('outF').textContent=d.out_file||'';
+  show($('resCard'));
+  setTimeout(()=>$('resCard').scrollIntoView({behavior:'smooth',block:'start'}),200);
+}
+
+function showErrorResult(entry){
+  hide($('resSuccess'));show($('resError'));
+  $('resErrorMsg').textContent=entry.error||'Unknown error';
+  $('resErrFile').textContent=entry.file_path||'—';
+  $('resErrTime').textContent=entry.timestamp||'—';
+  $('totalTime').textContent='error';
+  show($('resCard'));
+}
+
+// ── History ──
+let historyData=[];
+async function loadHistory(){
+  try{
+    const r=await fetch(API+'/history');
+    const d=await r.json();
+    historyData=d.history||[];
+    renderHistory();
+  }catch(e){$('histList').innerHTML='<div class="no-hist">Server not reachable.</div>'}
+}
+function renderHistory(){
+  $('histCount').textContent=historyData.length>0?`(${historyData.length})`:'';
+  if(!historyData.length){$('histList').innerHTML='<div class="no-hist">No runs yet.</div>';return}
+  $('histList').innerHTML=historyData.map((h,i)=>{
+    const fn=(h.file_path||'').split('/').pop()||'—';
+    const st=h.status||'error';
+    const t=h.result?.t_total?h.result.t_total+' s':'—';
+    const sz=h.result?`${h.result.N}³→${h.result.M}³`:'—';
+    const rt=h.result?.ratio?`R_f/r=${(h.result.ratio*100).toFixed(1)}%`:'';
+    const er=h.error?h.error.substring(0,60):'';
+    return `<div class="hist-item${selectedHistIdx===i?' active':''}" onclick="viewHist(${i})">
+      <span class="dot ${st}"></span>
+      <div class="hist-body">
+        <div class="hist-file">${fn}</div>
+        <div class="hist-meta">
+          <span>δ=${h.delta||'?'}</span>
+          ${st==='done'?`<span>${sz}</span><span>${t}</span><span>${rt}</span>`:`<span style="color:#f87171">${er}</span>`}
+          <span>${h.timestamp||''}</span>
+        </div>
+      </div>
+    </div>`
+  }).join('');
+}
+function viewHist(i){
+  selectedHistIdx=i;renderHistory();
+  const h=historyData[i];
+  if(h.status==='done'&&h.result) showSuccessResult(h.result);
+  else showErrorResult(h);
+}
+async function clearHistory(){
+  if(!confirm('Clear all history?'))return;
+  try{await fetch(API+'/history',{method:'DELETE'});historyData=[];selectedHistIdx=null;renderHistory();hide($('resCard'))}catch(e){}
+}
+
+document.querySelectorAll('input').forEach(el=>{el.addEventListener('keydown',e=>{if(e.key==='Enter')submitJob()})});
+
+// ── On load ──
+checkSSH();
+loadHistory();
+
+// Check for active jobs and resume polling
+(async()=>{
+  try{
+    const r=await fetch(API+'/jobs');
+    const d=await r.json();
+    const jobs=d.jobs||[];
+    const active=jobs.filter(j=>j.status==='queued'||j.status==='running'||j.status==='unknown');
+    if(active.length>0){
+      startPolling();
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

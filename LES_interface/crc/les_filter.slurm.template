@@ -1,0 +1,60 @@
+#!/bin/bash
+#SBATCH --job-name=LES___JOBNAME__
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=__CPUS__
+#SBATCH --mem=__MEM__
+#SBATCH --cluster=smp
+#SBATCH --partition=smp
+#SBATCH --time=__TIME__
+#SBATCH --output=__OUTDIR__/slurm_%j.out
+#SBATCH --error=__OUTDIR__/slurm_%j.err
+
+FNAME=$(basename "__FILEPATH__" .mat)
+FNAME=$(basename "$FNAME" .bin)
+
+cd __SCRIPTDIR__
+
+# Run Julia — outputs go to __OUTDIR__ initially
+julia --threads $SLURM_CPUS_PER_TASK run_les.jl __ARGS__
+EXIT_CODE=$?
+
+# Write error report if Julia crashed
+if [ $EXIT_CODE -ne 0 ]; then
+    ERR_FROM_STDERR=$(tail -10 "__OUTDIR__/slurm_${SLURM_JOB_ID}.err" 2>/dev/null | tr '"' "'" | tr '\n' ' ')
+    ERR_FROM_STDOUT=$(grep -i "error" "__OUTDIR__/slurm_${SLURM_JOB_ID}.out" 2>/dev/null | tr '"' "'" | tr '\n' ' ')
+    FINAL_MSG="${ERR_FROM_STDOUT} ${ERR_FROM_STDERR}"
+    FINAL_MSG=$(echo "$FINAL_MSG" | xargs)
+    if [ -z "$FINAL_MSG" ]; then
+        FINAL_MSG="Julia exited with code $EXIT_CODE"
+    fi
+    cat > "__OUTDIR__/report_${FNAME}_delta__DELTA___error.json" << EOF
+{
+  "status": "error",
+  "error": "$FINAL_MSG",
+  "file_path": "__FILEPATH__",
+  "delta": __DELTA__,
+  "timestamp": "$(date '+%Y-%m-%d %H:%M:%S')"
+}
+EOF
+fi
+
+# Find the filtered file to determine M
+FILTERED=$(ls -t __OUTDIR__/filtered_${FNAME}_*x*x*.mat 2>/dev/null | head -1)
+if [ -n "$FILTERED" ]; then
+    # Extract MxMxM from filename like filtered_U_t1_128x128x128.mat
+    MPART=$(basename "$FILTERED" .mat | grep -oE '[0-9]+x[0-9]+x[0-9]+')
+else
+    MPART="unknown"
+fi
+
+# Create job folder: <filename>_delta<d>_<M>x<M>x<M>_<jobid>
+JOBDIR="__OUTDIR__/${FNAME}_delta__DELTA___${MPART}_${SLURM_JOB_ID}"
+mkdir -p "$JOBDIR"
+
+# Move all output files into the job folder
+mv __OUTDIR__/filtered_${FNAME}_*.mat "$JOBDIR/" 2>/dev/null
+mv __OUTDIR__/report_${SLURM_JOB_ID}.json "$JOBDIR/" 2>/dev/null
+mv __OUTDIR__/status_${FNAME}_delta__DELTA__.json "$JOBDIR/" 2>/dev/null
+mv __OUTDIR__/slurm_${SLURM_JOB_ID}.out "$JOBDIR/" 2>/dev/null
+mv __OUTDIR__/slurm_${SLURM_JOB_ID}.err "$JOBDIR/" 2>/dev/null

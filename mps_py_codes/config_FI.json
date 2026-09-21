@@ -1,0 +1,232 @@
+{
+    "full_dns": {
+        "vel": {
+            "U":"/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/U_t1.mat",
+            "V":"/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/V_t1.mat",
+            "W":"/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/W_t1.mat"
+        },
+        "grad_vel": {
+            "dux_dx": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/grad/grad_dux_dx.h5",
+            "dux_dy": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/grad/grad_dux_dy.h5",
+            "dux_dz": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/grad/grad_dux_dz.h5",
+            "duy_dx": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/grad/grad_duy_dx.h5",
+            "duy_dy": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/grad/grad_duy_dy.h5",
+            "duy_dz": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/grad/grad_duy_dz.h5",
+            "duz_dx": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/grad/grad_duz_dx.h5",
+            "duz_dy": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/grad/grad_duz_dy.h5",
+            "duz_dz": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/grad/grad_duz_dz.h5"
+        },
+        "disp": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/dissipation.mat",
+        "energy_spectrum": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/energy_spectrum.mat",
+        "invars": {
+            "div": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/first_invariant_div.h5",
+            "Q": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/second_invariant_Q.h5",
+            "R": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/third_invariant_R.h5"
+        },
+        "strain_rate": {
+            "alpha": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/Strain_rate_eigen_values_alpha.h5",
+            "beta": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/Strain_rate_eigen_values_beta.h5",
+            "gamma": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/Strain_rate_eigen_values_gamma.h5",
+            "s_tilde": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/Spectral/Strain_rate_eigen_values_stilde.h5"
+        },
+        "scalars": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/5_Grid_1024/Forced_Isotropic_1024Cubed_mat_in_one/flow_parameters.mat"
+    }, 
+    "512_dns": {
+        "vel": {
+            "U":"/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/U_t1.mat",
+            "V":"/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/U_t1.mat",
+            "W":"/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/U_t1.mat"
+        },
+        "grad_vel": {
+            "dux_dx": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/grad/grad_dux_dx.h5",
+            "dux_dy": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/grad/grad_dux_dy.h5",
+            "dux_dz": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/grad/grad_dux_dz.h5",
+            "duy_dx": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/grad/grad_duy_dx.h5",
+            "duy_dy": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/grad/grad_duy_dy.h5",
+            "duy_dz": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/grad/grad_duy_dz.h5",
+            "duz_dx": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/grad/grad_duz_dx.h5",
+            "duz_dy": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/grad/grad_duz_dy.h5",
+            "duz_dz": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/grad/grad_duz_dz.h5"
+        },
+        "disp": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/dissipation.h5",
+        "energy_spectrum": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/energy_spectrum.mat",
+        "invars": {
+            "div": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/first_invariant_div.h5",
+            "Q": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/second_invariant_Q.h5",
+            "R": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/third_invariant_R.h5"
+        },
+        "strain_rate": {
+            "alpha": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/Strain_rate_eigen_values_alpha.h5",
+            "beta": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/Strain_rate_eigen_values_beta.h5",
+            "gamma": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/Strain_rate_eigen_values_gamma.h5",
+            "s_tilde": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/spectral_t1/Strain_rate_eigen_values_stilde.h5"
+        },
+        "scalars": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_SubDomain_mat/flow_parameters.mat"
+    }, 
+    "512_dns_wd": {
+        "vel": {
+            "U":"/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/U_t1.mat",
+            "V":"/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/U_t1.mat",
+            "W":"/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/U_t1.mat"
+        },
+        "grad_vel": {
+            "dux_dx": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/grad/grad_dux_dx.h5",
+            "dux_dy": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/grad/grad_dux_dy.h5",
+            "dux_dz": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/grad/grad_dux_dz.h5",
+            "duy_dx": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/grad/grad_duy_dx.h5",
+            "duy_dy": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/grad/grad_duy_dy.h5",
+            "duy_dz": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/grad/grad_duy_dz.h5",
+            "duz_dx": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/grad/grad_duz_dx.h5",
+            "duz_dy": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/grad/grad_duz_dy.h5",
+            "duz_dz": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/grad/grad_duz_dz.h5"
+        },
+        "disp": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/dissipation.h5",
+        "energy_spectrum": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/energy_spectrum.mat",
+        "invars": {
+            "div": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/first_invariant_div.h5",
+            "Q": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/second_invariant_Q.h5",
+            "R": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/third_invariant_R.h5"
+        },
+        "strain_rate": {
+            "alpha": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/Strain_rate_eigen_values_alpha.h5",
+            "beta": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/Strain_rate_eigen_values_beta.h5",
+            "gamma": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/Strain_rate_eigen_values_gamma.h5",
+            "s_tilde": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/Spectral/Strain_rate_eigen_values_stilde.h5"
+        },
+        "scalars": "/ix/pgivi/moe32/Schmidt/Forced_Isotropic/4_Grid_512/Forced_Isotropic_512Cubed_WholeDomain_mat/2Even/flow_parameters.mat"
+    },
+    "128_dns": {
+        "vel": {
+            "U":"../Forced_Isotropic/02 Grid 128/U_t1.mat",
+            "V":"../Forced_Isotropic/02 Grid 128/V_t1.mat",
+            "W":"../Forced_Isotropic/02 Grid 128/W_t1.mat"
+        },
+        "grad_vel": {
+            "dux_dx": "/Users/massen/Desktop/Johns Hopkins Turbulence Database/Schmidt/Massen_Lib/grad_dux_dx.h5",
+            "dux_dy": "/Users/massen/Desktop/Johns Hopkins Turbulence Database/Schmidt/Massen_Lib/grad_dux_dy.h5",
+            "dux_dz": "/Users/massen/Desktop/Johns Hopkins Turbulence Database/Schmidt/Massen_Lib/grad_dux_dz.h5",
+            "duy_dx": "/Users/massen/Desktop/Johns Hopkins Turbulence Database/Schmidt/Massen_Lib/grad_duy_dx.h5",
+            "duy_dy": "/Users/massen/Desktop/Johns Hopkins Turbulence Database/Schmidt/Massen_Lib/grad_duy_dy.h5",
+            "duy_dz": "/Users/massen/Desktop/Johns Hopkins Turbulence Database/Schmidt/Massen_Lib/grad_duy_dz.h5",
+            "duz_dx": "/Users/massen/Desktop/Johns Hopkins Turbulence Database/Schmidt/Massen_Lib/grad_duz_dx.h5",
+            "duz_dy": "/Users/massen/Desktop/Johns Hopkins Turbulence Database/Schmidt/Massen_Lib/grad_duz_dy.h5",
+            "duz_dz": "/Users/massen/Desktop/Johns Hopkins Turbulence Database/Schmidt/Massen_Lib/grad_duz_dz.h5"
+        },
+        "disp": "dissipation.h5",
+        "energy_spectrum": "C:/Users/YourName/Documents/data/small_dns/energy_spectrum.csv",
+        "invars": {
+            "div": "C:/Users/YourName/Documents/data/small_dns/invars/div.csv",
+            "Q": "C:/Users/YourName/Documents/data/small_dns/invars/Q.csv",
+            "R": "C:/Users/YourName/Documents/data/small_dns/invars/R.csv"
+        },
+        "strain_rate": {
+            "alpha":   "Strain_rate_eigen_values_alpha.h5",
+            "beta":    "Strain_rate_eigen_values_beta.h5",
+            "gamma":   "Strain_rate_eigen_values_gamma.h5",
+            "s_tilde": "Strain_rate_eigen_values_stilde.h5"
+        }
+    },
+    "128_comp": {
+        "vel": [
+            "../Julia/truncated_u_il_data.mat",
+            "../Julia/truncated_v_il_data.mat",
+            "../Julia/truncated_w_il_data.mat"
+        ],
+        "grad_vel": {
+            "dux_dx": "C:/Users/YourName/Documents/data/small_dns/grad_vel/dux_dx.csv",
+            "dux_dy": "C:/Users/YourName/Documents/data/small_dns/grad_vel/dux_dy.csv",
+            "dux_dz": "C:/Users/YourName/Documents/data/small_dns/grad_vel/dux_dz.csv",
+            "duy_dx": "C:/Users/YourName/Documents/data/small_dns/grad_vel/duy_dx.csv",
+            "duy_dy": "C:/Users/YourName/Documents/data/small_dns/grad_vel/duy_dy.csv",
+            "duy_dz": "C:/Users/YourName/Documents/data/small_dns/grad_vel/duy_dz.csv",
+            "duz_dx": "C:/Users/YourName/Documents/data/small_dns/grad_vel/duz_dx.csv",
+            "duz_dy": "C:/Users/YourName/Documents/data/small_dns/grad_vel/duz_dy.csv",
+            "duz_dz": "C:/Users/YourName/Documents/data/small_dns/grad_vel/duz_dz.csv"
+        },
+        "disp": "dissipation_comp.h5",
+        "energy_spectrum": "C:/Users/YourName/Documents/data/small_dns/energy_spectrum.csv",
+        "invars": {
+            "div": "C:/Users/YourName/Documents/data/small_dns/invars/div.csv",
+            "Q": "C:/Users/YourName/Documents/data/small_dns/invars/Q.csv",
+            "R": "C:/Users/YourName/Documents/data/small_dns/invars/R.csv"
+        },
+        "s_star": {
+            "alpha": "C:/Users/YourName/Documents/data/small_dns/s_star/alpha.csv",
+            "beta": "C:/Users/YourName/Documents/data/small_dns/s_star/beta.csv",
+            "gamma": "C:/Users/YourName/Documents/data/small_dns/s_star/gamma.csv",
+            "s_tilde": "C:/Users/YourName/Documents/data/small_dns/s_star/s_tilde.csv"
+        }
+    },
+    "full_binary_dns": {
+        "vel": {
+            "U": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/rstrt.0020.bin",
+            "V": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/rstrt.0020.2.bin",
+            "W": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/rstrt.0020.3.bin"
+        },
+        "P": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/rstrt.0020.4.bin",
+        "phi1": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data_2/rstrt.0018.5.bin",
+        "phi2": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data_2/rstrt.0018.6.bin",
+        "phi1_2":"/ix/pgivi/moe32/Daniel_Forced_Isotropic/data_3/rstrt.0026.5.bin",
+        "phi2_2":"/ix/pgivi/moe32/Daniel_Forced_Isotropic/data_3/rstrt.0026.6.bin",
+        
+        "grad_vel": {
+            "dux_dx": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/grad/grad_dux_dx.h5",
+            "dux_dy": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/grad/grad_dux_dy.h5",
+            "dux_dz": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/grad/grad_dux_dz.h5",
+            "duy_dx": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/grad/grad_duy_dx.h5",
+            "duy_dy": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/grad/grad_duy_dy.h5",
+            "duy_dz": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/grad/grad_duy_dz.h5",
+            "duz_dx": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/grad/grad_duz_dx.h5",
+            "duz_dy": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/grad/grad_duz_dy.h5",
+            "duz_dz": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/grad/grad_duz_dz.h5"
+        },
+        "disp": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/dissipation.h5",
+        "energy_spectrum": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/energy_spectrum.mat",
+        "invars": {
+            "div": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/first_invariant_div_spectral.h5",
+            "Q": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/second_invariant_Q_spectral.h5",
+            "R": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/third_invariant_R_spectral.h5"
+        },
+        "strain_rate": {
+            "alpha": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/Strain_rate_eigen_values_alpha.h5",
+            "beta": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/Strain_rate_eigen_values_beta.h5",
+            "gamma": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/Strain_rate_eigen_values_gamma.h5",
+            "s_tilde": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/Spectral/Strain_rate_eigen_values_stilde.h5"
+        },
+        "scalars": "/ix/pgivi/moe32/Daniel_Forced_Isotropic/data/flow_parameters.mat"
+
+    },
+    "32_binary_dns": {
+        "vel": {
+            "U": "binary_daniel_32/rstrt.0020.bin",
+            "V": "binary_daniel_32/rstrt.0020.2.bin",
+            "W": "binary_daniel_32/rstrt.0020.3.bin"
+        },
+        "P": "binary_daniel_32/rstrt.0020.4.bin",
+        "grad_vel": {
+            "dux_dx": "binary_daniel_32/Spectral/grad/grad_dux_dx.h5",
+            "dux_dy": "binary_daniel_32/Spectral/grad/grad_dux_dy.h5",
+            "dux_dz": "binary_daniel_32/Spectral/grad/grad_dux_dz.h5",
+            "duy_dx": "binary_daniel_32/Spectral/grad/grad_duy_dx.h5",
+            "duy_dy": "binary_daniel_32/Spectral/grad/grad_duy_dy.h5",
+            "duy_dz": "binary_daniel_32/Spectral/grad/grad_duy_dz.h5",
+            "duz_dx": "binary_daniel_32/Spectral/grad/grad_duz_dx.h5",
+            "duz_dy": "binary_daniel_32/Spectral/grad/grad_duz_dy.h5",
+            "duz_dz": "binary_daniel_32/Spectral/grad/grad_duz_dz.h5"
+        },
+        "disp": "binary_daniel_32/Spectral/dissipation.h5",
+        "energy_spectrum": "binary_daniel_32/Spectral/energy_spectrum.mat",
+        "invars": {
+            "div": "binary_daniel_32/Spectral/first_invariant_div_spectral.h5",
+            "Q": "binary_daniel_32/Spectral/second_invariant_Q_spectral.h5",
+            "R": "binary_daniel_32/Spectral/third_invariant_R_spectral.h5"
+        },
+        "strain_rate": {
+            "alpha": "binary_daniel_32/Spectral/Strain_rate_eigen_values_alpha.h5",
+            "beta": "binary_daniel_32/Spectral/Strain_rate_eigen_values_beta.h5",
+            "gamma": "binary_daniel_32/Spectral/Strain_rate_eigen_values_gamma.h5",
+            "s_tilde": "binary_daniel_32/Spectral/Strain_rate_eigen_values_stilde.h5"
+        },
+        "scalars": "binary_daniel_32/flow_parameters.mat"
+    }
+}
