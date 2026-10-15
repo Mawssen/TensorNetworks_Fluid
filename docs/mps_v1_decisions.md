@@ -1,5 +1,7 @@
 # MPS v1 decisions required before implementation
 
+Scope notice: this earlier document concerns a proposed numerical rebuild. For the current unchanged-CLI automation milestone, use the [approved plan](mps_automation_plan.md) and single [open-question register](mps_v1_open_questions.md). Authority, fixed input contract, units policy, case-agnostic configuration, and structural-only diagnostics have since been decided. The recommendations below do not select ordering 1 or authorize numerical validation in current v1.
+
 No item below is decided merely by documenting the provisional references. Resolve each scientific, compatibility, or costly-computing item with the repository owner before implementation or baseline execution.
 
 ## Recommended smallest first target

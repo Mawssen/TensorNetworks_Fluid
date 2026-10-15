@@ -1,5 +1,7 @@
 # MPS v1 provisional reference contract
 
+Scope notice: this earlier source inventory is retained as historical documentation. The active CLI is now the approved v1 numerical authority; the current [automation plan](mps_automation_plan.md) records the fixed input contract and structural-only scope. Its [open-question register](mps_v1_open_questions.md) supersedes the unresolved-decision labels below for this milestone. No numerical rewrite or baseline run is authorized.
+
 ## Status and scope
 
 This document records, but does not endorse or correct, the behavior of `Julia/0mps_calc.jl` as the provisional numerical reference and `Julia/00mps_calc.slurm` as the provisional CRC wrapper. Their status as provisional references is a project decision supplied for this documentation task, not a conclusion drawn from the files.

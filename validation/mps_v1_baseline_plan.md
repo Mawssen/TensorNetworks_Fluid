@@ -1,5 +1,7 @@
 # MPS v1 baseline plan
 
+Scope notice: this earlier numerical-rebuild baseline proposal is outside the current unchanged-CLI automation milestone. Use the [automation plan](../docs/mps_automation_plan.md) and [open-question register](../docs/mps_v1_open_questions.md) for current requirements. V1 uses structural/run diagnostics only; this document does not require or authorize synthetic compression, real-data baselining, or fidelity/error metrics for the wrapper.
+
 This is a validation plan only. It does not select a scientific dataset, establish tolerances, execute compression, or authorize a CRC submission.
 
 ## Phase 0: prerequisites
