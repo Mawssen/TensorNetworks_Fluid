@@ -1,0 +1,114 @@
+# DOCUMENTATION ONLY: every line is a comment; this file parses as empty TOML.
+# The first declaration interface accepts mps_v1_dry_run_template.json instead.
+# See mps_v1_dry_run_interface.md for the executable JSON schema and limitations.
+# It is not a runnable configuration, job script, or approval.
+# See mps_automation_plan.md, mps_v1_open_questions.md, mps_v1_dry_run_spec.md.
+# Keys are a proposed inventory pending Q16, not implemented parser syntax.
+# Fixed values below are explicit owner-approved assertions, not defaults.
+# Every undecided value is REQUIRES_OWNER_DECISION; placeholders must be rejected.
+# Shapes/axis tuples/bounds are fixed structure, never a campaign list.
+#
+# schema_version = "REQUIRES_OWNER_DECISION"
+#
+# [case]
+# dataset_id = "REQUIRES_OWNER_DECISION"
+# field = "REQUIRES_OWNER_DECISION"
+# timestep = "REQUIRES_OWNER_DECISION" # string; retain leading zeros
+# input_path = "REQUIRES_OWNER_DECISION" # one absolute path; no discovery
+# ordering_code = "REQUIRES_OWNER_DECISION" # one integer 1..4 after approval
+# ordering_label = "REQUIRES_OWNER_DECISION" # Q02; no inferred bit semantics
+#
+# [case.input]
+# domain = "Jet Flame DNS"
+# scalar_type = "Float32"
+# endianness = "big-endian"
+# full_grid_shape = [864, 1008, 576]
+# axis_order = ["x", "y", "z"]
+# fastest_axis = "x"
+# physical_units = "REQUIRES_OWNER_DECISION" # nonempty; owner approves pairing
+# crop_kind = "centered"
+# crop_shape = [512, 512, 512]
+# crop_indexing = "zero-based-half-open"
+# size_policy = "REQUIRES_OWNER_DECISION" # Q01; exact or allowed trailing data
+# identity_policy = "REQUIRES_OWNER_DECISION" # Q11; no automatic data hashing
+# immutable_identifier_or_checksum = "REQUIRES_OWNER_DECISION"
+#
+# [case.input.crop_bounds]
+# x = [176, 688]
+# y = [248, 760]
+# z = [32, 544]
+#
+# [case.truncation]
+# kind = "REQUIRES_OWNER_DECISION" # cutoff OR max_bond_dimension, exactly one
+# value = "REQUIRES_OWNER_DECISION" # Q03 domain; preserve approved CLI token
+# output_label_verification = "REQUIRES_OWNER_DECISION" # Q04, not a rename
+#
+# [historical]
+# julia_script = "REQUIRES_OWNER_DECISION" # absolute path to Julia/0mps_calc.jl
+# git_commit = "REQUIRES_OWNER_DECISION"
+# script_sha256 = "REQUIRES_OWNER_DECISION"
+# dirty_tree_policy = "REQUIRES_OWNER_DECISION" # Q12
+# working_directory = "REQUIRES_OWNER_DECISION" # absolute; fixes output root
+#
+# [output]
+# expected_mat_path = "REQUIRES_OWNER_DECISION" # exact derived-path assertion
+# collision_strategy = "REQUIRES_OWNER_DECISION" # Q14; overwrite forbidden
+# Historical naming MUST be derived, with the input basename including .dat:
+# <working_directory>/truncated_<timestep>/
+# truncated_<input-basename>_512_<il|seq|comb1|combn>_<cfVALUE|chiINTEGER>.mat
+# Neither an arbitrary basename nor an ordering subdirectory is supported.
+#
+# [runtime]
+# julia_executable = "REQUIRES_OWNER_DECISION"
+# julia_project = "REQUIRES_OWNER_DECISION"
+# julia_depot = "REQUIRES_OWNER_DECISION"
+# package_environment_record = "REQUIRES_OWNER_DECISION"
+# startup_policy = "REQUIRES_OWNER_DECISION"
+# module_environment = "REQUIRES_OWNER_DECISION"
+# omp_num_threads = "REQUIRES_OWNER_DECISION"
+# julia_num_threads = "REQUIRES_OWNER_DECISION"
+# Historical code sets BLAS threads to 10 internally; this is not a CPU default.
+#
+# [slurm]
+# cluster = "REQUIRES_OWNER_DECISION"
+# partition = "REQUIRES_OWNER_DECISION"
+# account = "REQUIRES_OWNER_DECISION"
+# qos = "REQUIRES_OWNER_DECISION"
+# reservation = "REQUIRES_OWNER_DECISION"
+# constraint = "REQUIRES_OWNER_DECISION"
+# nodes = "REQUIRES_OWNER_DECISION"
+# ntasks = "REQUIRES_OWNER_DECISION"
+# cpus_per_task = "REQUIRES_OWNER_DECISION"
+# memory = "REQUIRES_OWNER_DECISION" # explicit unit and request semantics
+# walltime = "REQUIRES_OWNER_DECISION"
+# job_name = "REQUIRES_OWNER_DECISION"
+# stdout_path = "REQUIRES_OWNER_DECISION"
+# stderr_path = "REQUIRES_OWNER_DECISION"
+# launcher_policy = "REQUIRES_OWNER_DECISION" # one invocation, never an array
+# Optional fields require an explicit approved unset representation (Q16).
+# No resource values are inherited from Julia/00mps_calc.slurm.
+#
+# [audit]
+# directory = "REQUIRES_OWNER_DECISION" # separate from historical results
+# preparation_context = "REQUIRES_OWNER_DECISION" # Q17
+# plan_serialization = "REQUIRES_OWNER_DECISION" # Q16
+# input_estimate_evidence = "REQUIRES_OWNER_DECISION" # unknown is allowed, Q10
+#
+# [approval]
+# required_approver = "REQUIRES_OWNER_DECISION"
+# record_mechanism = "REQUIRES_OWNER_DECISION"
+# lifetime = "REQUIRES_OWNER_DECISION"
+# This table never constitutes approval; an exact completed plan is reviewed.
+#
+# [diagnostics]
+# scope = "structural-and-run-only"
+# collection_context = "REQUIRES_OWNER_DECISION"
+# existing_mat_reader = "REQUIRES_OWNER_DECISION"
+# accounting_source = "REQUIRES_OWNER_DECISION"
+# report_format = "REQUIRES_OWNER_DECISION"
+# report_path = "REQUIRES_OWNER_DECISION"
+# Required observations: Slurm state/accounting, exit state, elapsed time,
+# output existence/size, MAT variable names/shapes/dtypes, and chi_crit.
+# Missing observations are unavailable, not inferred; no fidelity/error metrics.
+# Codex must show the owner the summary and output/log/diagnostic locations.
+# Scientific acceptance belongs to the owner.

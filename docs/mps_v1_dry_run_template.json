@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "case": {
+    "dataset_id": "REQUIRES_OWNER_DECISION",
+    "field": "REQUIRES_OWNER_DECISION",
+    "timestep": "REQUIRES_OWNER_DECISION",
+    "input_path": "REQUIRES_OWNER_DECISION",
+    "ordering_code": "REQUIRES_OWNER_DECISION",
+    "ordering_label": "REQUIRES_OWNER_DECISION",
+    "input": {
+      "domain": "Jet Flame DNS",
+      "scalar_type": "Float32",
+      "endianness": "big-endian",
+      "full_grid_shape": [864, 1008, 576],
+      "axis_order": ["x", "y", "z"],
+      "fastest_axis": "x",
+      "physical_units": "REQUIRES_OWNER_DECISION",
+      "crop_kind": "centered",
+      "crop_shape": [512, 512, 512],
+      "crop_indexing": "zero-based-half-open",
+      "crop_bounds": {"x": [176, 688], "y": [248, 760], "z": [32, 544]}
+    },
+    "truncation": {"kind": "max_bond_dimension", "value": "REQUIRES_OWNER_DECISION"}
+  },
+  "historical": {"working_directory": "REQUIRES_OWNER_DECISION"},
+  "runtime": {
+    "julia_executable": "REQUIRES_OWNER_DECISION",
+    "omp_num_threads": "REQUIRES_OWNER_DECISION",
+    "julia_num_threads": "REQUIRES_OWNER_DECISION",
+    "module_environment": "REQUIRES_OWNER_DECISION"
+  },
+  "slurm": {
+    "cluster": "REQUIRES_OWNER_DECISION",
+    "partition": "REQUIRES_OWNER_DECISION",
+    "account": "REQUIRES_OWNER_DECISION",
+    "qos": "REQUIRES_OWNER_DECISION",
+    "reservation": "REQUIRES_OWNER_DECISION",
+    "constraint": "REQUIRES_OWNER_DECISION",
+    "nodes": "REQUIRES_OWNER_DECISION",
+    "ntasks": "REQUIRES_OWNER_DECISION",
+    "cpus_per_task": "REQUIRES_OWNER_DECISION",
+    "memory": "REQUIRES_OWNER_DECISION",
+    "walltime": "REQUIRES_OWNER_DECISION",
+    "job_name": "REQUIRES_OWNER_DECISION",
+    "stdout_path": "REQUIRES_OWNER_DECISION",
+    "stderr_path": "REQUIRES_OWNER_DECISION"
+  },
+  "audit": {"directory": "REQUIRES_OWNER_DECISION"},
+  "approval": {"required_approver": "REQUIRES_OWNER_DECISION"},
+  "diagnostics": {"scope": "structural-and-run-only"}
+}
