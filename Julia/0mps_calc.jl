@@ -803,10 +803,40 @@ end
 
 ##############################################################################
 
+"""Read big-endian Float32 `(x,y,z)` data (x fastest), returning a centered cube.
+
+`full_shape` gives the three stored dimensions; `crop_size` is the retained
+length on each axis. No normalization or axis permutation is performed.
+Defaults reproduce the historical Jet Flame reader. Trailing bytes are ignored.
+"""
+function load_centered_be_float32(input_path::String;
+        full_shape::NTuple{3,Int}=(864,1008,576), crop_size::Int=512)
+    nx, ny, nz = full_shape
+    ntn = crop_size
+    n = nx * ny * nz
+    open(input_path, "r") do f
+        raw = read(f, 4 * n)
+        data_u32 = reinterpret(UInt32, raw)
+        data = reinterpret(Float32, ntoh.(data_u32))
+        raw = nothing
+        data_grid = reshape(data, nx, ny, nz)
+        start_y = div(ny, 2) - div(ntn, 2) + 1
+        start_x = div(nx, 2) - div(ntn, 2) + 1
+        start_z = div(nz, 2) - div(ntn, 2) + 1
+        return data_grid[start_x:start_x+ntn-1, start_y:start_y+ntn-1, start_z:start_z+ntn-1]
+    end
+end
+
+"""Run the historical three-argument CLI calculation, with unchanged naming.
+
+`args` contains input path, chi/cutoff token, and ordering code. The fixed
+Jet Flame layout is retained. Writes MAT output relative to the process cwd.
+"""
+function mps_cli(args=ARGS)
 total_time = @elapsed begin
-    input_path = ARGS[1]
-    mode_arg   = ARGS[2]   # either a cutoff like "3e-4" OR a chi spec like "chi=512"
-    sp         = parse(Int, ARGS[3])
+    input_path = args[1]
+    mode_arg   = args[2]   # either a cutoff like "3e-4" OR a chi spec like "chi=512"
+    sp         = parse(Int, args[3])
 
     # Decide whether we got a cutoff or a chi (bond-dim) target.
     use_chi   = startswith(lowercase(mode_arg), "chi=")
@@ -822,25 +852,7 @@ total_time = @elapsed begin
     timestep   = match(r"_(\d+)\.dat$", filename).captures[1]
     output_dir = "truncated_$(timestep)"
     mkpath(output_dir)
-    nx = 864
-    ny = 1008
-    nz = 576
-    ntn = 512
-    n = nx * ny * nz
-
-    open(input_path, "r") do f
-        raw = read(f, 4 * n)
-        data_u32 = reinterpret(UInt32, raw)
-        data = reinterpret(Float32, ntoh.(data_u32))
-        raw = nothing
-        data_grid = reshape(data, nx, ny, nz)
-
-        start_y = div(ny, 2) - div(ntn, 2) + 1
-        start_x = div(nx, 2) - div(ntn, 2) + 1
-        start_z = div(nz, 2) - div(ntn, 2) + 1
-
-        u = data_grid[start_x:start_x+ntn-1, start_y:start_y+ntn-1, start_z:start_z+ntn-1]
-        data_grid = nothing
+        u = load_centered_be_float32(input_path)
         GC.gc()
 
         if use_chi
@@ -864,7 +876,11 @@ total_time = @elapsed begin
         output_file = joinpath(output_dir,
                                "truncated_$(filename)_512_$(tag)_$(label).mat")
         save_to_mat(output_file, u_rec, chi_c)
-    end
 end
 
 println("Total elapsed time: ", total_time, " seconds")
+end
+
+if abspath(PROGRAM_FILE) == @__FILE__
+    mps_cli()
+end

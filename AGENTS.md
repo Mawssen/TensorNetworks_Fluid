@@ -2,6 +2,16 @@
 
 This file applies to the entire repository and to every future Codex session working in it.
 
+## New MPS and LES cases
+
+Start from the closest script in `examples/`, keep editable case values together
+near its top, and reuse the public functions via `using TurbulenceTools` with
+the repository project (`julia --project=.`). Ask only for missing scientific
+inputs that affect the result; reuse inputs already approved for the case.
+Keep the LES operator explicit and dataset/CRC settings outside the package.
+The existing approval requirements for dependency changes, production runs and
+CRC job submission still apply.
+
 ## Evidence and decision policy
 
 Before making any scientific, compatibility, or costly-computing decision that is not directly established by repository evidence, stop and ask the user one concise question. State the decision, the relevant evidence, the available options, and the consequence of each option. Do not silently choose among conflicting historical scripts, formulas, or conventions.
