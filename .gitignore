@@ -1,1 +1,5 @@
 codex_transcripts/
+/artifacts/*
+!/artifacts/README.md
+__pycache__/
+*.py[cod]

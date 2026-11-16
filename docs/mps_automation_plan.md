@@ -8,11 +8,11 @@ The owner explicitly selected **chi-only support with numeric cutoff rejection w
 
 ## Status and boundary
 
-This is a design document only. It does not select a scientific case, endorse a CRC resource request, or authorize execution. The proposed wrapper is a thin planning and launch-description layer around the unchanged active command-line path in [`Julia/0mps_calc.jl`](../Julia/0mps_calc.jl). [`Julia/00mps_calc.slurm`](../Julia/00mps_calc.slurm) is evidence of a historical CRC invocation, not a template whose active campaign or resource values are silently inherited.
+This is a design document only. It does not select a scientific case, endorse a CRC resource request, or authorize execution. The proposed wrapper is a thin planning and launch-description layer around the unchanged active command-line path in [`legacy/Julia/0mps_calc.jl`](../legacy/Julia/0mps_calc.jl). [`legacy/Julia/00mps_calc.slurm`](../legacy/Julia/00mps_calc.slurm) is evidence of a historical CRC invocation, not a template whose active campaign or resource values are silently inherited.
 
-**Decision recorded 2026-09-21:** For version 1, only the active three-argument CLI in `Julia/0mps_calc.jl` is the authoritative numerical calculation. The wrapper will invoke that path unchanged. No other historical MPS script is part of the v1 numerical contract. The conflicting comments and active arrays in `Julia/00mps_calc.slurm` do not establish a production field roster; field, dataset, timestep, ordering, truncation, CRC resources, and output location remain explicit user-approved configuration decisions.
+**Decision recorded 2026-09-21:** For version 1, only the active three-argument CLI in `legacy/Julia/0mps_calc.jl` is the authoritative numerical calculation. The wrapper will invoke that path unchanged. No other historical MPS script is part of the v1 numerical contract. The conflicting comments and active arrays in `legacy/Julia/00mps_calc.slurm` do not establish a production field roster; field, dataset, timestep, ordering, truncation, CRC resources, and output location remain explicit user-approved configuration decisions.
 
-**Decision recorded 2026-09-21:** Version 1 is case-agnostic. Every configuration must explicitly provide exactly one dataset identifier, field, timestep, and absolute input path. The wrapper must not hard-code, discover, or infer any of those values from `Julia/00mps_calc.slurm`, its historical array, directory contents, filename catalogs, or defaults. No production case must be selected to implement the generic wrapper.
+**Decision recorded 2026-09-21:** Version 1 is case-agnostic. Every configuration must explicitly provide exactly one dataset identifier, field, timestep, and absolute input path. The wrapper must not hard-code, discover, or infer any of those values from `legacy/Julia/00mps_calc.slurm`, its historical array, directory contents, filename catalogs, or defaults. No production case must be selected to implement the generic wrapper.
 
 **Decision recorded 2026-09-21:** Every version 1 configuration must explicitly declare scalar type, endianness, full-grid shape, centered crop, axis convention, and physical units. The wrapper must fail closed if a fixed input-contract declaration is absent or mismatched. Values established directly by the CLI are big-endian `Float32`, full-grid shape `(864,1008,576)`, and a centered `(512,512,512)` crop. The following records resolve physical-axis semantics and the separate user-approved units policy.
 
@@ -40,12 +40,12 @@ Lists, globs, directory discovery, field inference, mode sweeps, ordering sweeps
 
 ## Evidence from the provisional references
 
-The active Julia path accepts three positional arguments: `input_path`, a mode string, and integer `sp` ([`0mps_calc.jl:806-809`](../Julia/0mps_calc.jl#L806-L809)). A case-insensitive `chi=<integer>` selects a maximum bond dimension; every other mode string is parsed as a `Float64` cutoff ([`0mps_calc.jl:811-819`](../Julia/0mps_calc.jl#L811-L819)). The active path then:
+The active Julia path accepts three positional arguments: `input_path`, a mode string, and integer `sp` ([`0mps_calc.jl:806-809`](../legacy/Julia/0mps_calc.jl#L806-L809)). A case-insensitive `chi=<integer>` selects a maximum bond dimension; every other mode string is parsed as a `Float64` cutoff ([`0mps_calc.jl:811-819`](../legacy/Julia/0mps_calc.jl#L811-L819)). The active path then:
 
-1. requires an input basename ending in `_<digits>.dat` and uses those digits as the timestep ([`0mps_calc.jl:821-824`](../Julia/0mps_calc.jl#L821-L824));
-2. reads big-endian `Float32` words for a hard-coded `(864, 1008, 576)` grid and takes a centered `512^3` crop ([`0mps_calc.jl:825-842`](../Julia/0mps_calc.jl#L825-L842)); under the approved Jet Flame DNS convention this is `(x,y,z)` with `x` fastest-varying, and the zero-based half-open crop bounds are `x=[176,688)`, `y=[248,760)`, and `z=[32,544)`;
-3. applies the selected ordering and MPS truncation without an explicit normalization step in the active calculation ([`0mps_calc.jl:366-394`](../Julia/0mps_calc.jl#L366-L394), [`0mps_calc.jl:846-850`](../Julia/0mps_calc.jl#L846-L850)); and
-4. writes MAT variables `u` and `chi_crit` ([`0mps_calc.jl:416-425`](../Julia/0mps_calc.jl#L416-L425)).
+1. requires an input basename ending in `_<digits>.dat` and uses those digits as the timestep ([`0mps_calc.jl:821-824`](../legacy/Julia/0mps_calc.jl#L821-L824));
+2. reads big-endian `Float32` words for a hard-coded `(864, 1008, 576)` grid and takes a centered `512^3` crop ([`0mps_calc.jl:825-842`](../legacy/Julia/0mps_calc.jl#L825-L842)); under the approved Jet Flame DNS convention this is `(x,y,z)` with `x` fastest-varying, and the zero-based half-open crop bounds are `x=[176,688)`, `y=[248,760)`, and `z=[32,544)`;
+3. applies the selected ordering and MPS truncation without an explicit normalization step in the active calculation ([`0mps_calc.jl:366-394`](../legacy/Julia/0mps_calc.jl#L366-L394), [`0mps_calc.jl:846-850`](../legacy/Julia/0mps_calc.jl#L846-L850)); and
+4. writes MAT variables `u` and `chi_crit` ([`0mps_calc.jl:416-425`](../legacy/Julia/0mps_calc.jl#L416-L425)).
 
 The output directory is relative to the process working directory. It is `truncated_<timestep>`. The output basename is:
 
@@ -59,11 +59,11 @@ or:
 truncated_<input-basename>_512_<ordering-tag>_chi<integer>.mat
 ```
 
-The active filename tags are `1 -> il`, `2 -> seq`, `3 -> comb1`, and `4 -> combn` ([`0mps_calc.jl:852-866`](../Julia/0mps_calc.jl#L852-L866)). Although ordering helpers for codes 5 and 6 exist, the active filename path rejects them, so the proposed wrapper must not offer them.
+The active filename tags are `1 -> il`, `2 -> seq`, `3 -> comb1`, and `4 -> combn` ([`0mps_calc.jl:852-866`](../legacy/Julia/0mps_calc.jl#L852-L866)). Although ordering helpers for codes 5 and 6 exist, the active filename path rejects them, so the proposed wrapper must not offer them.
 
-The provisional Slurm file records one node, one task, 20 CPUs, `smp` cluster and partition, 64 GiB, two hours, and a 28-element array ([`00mps_calc.slurm:2-11`](../Julia/00mps_calc.slurm#L2-L11)). It also records `OMP_NUM_THREADS=10`, a Julia 1.12.6 executable path, two truncation choices, and ordering code 1 ([`00mps_calc.slurm:18-19`](../Julia/00mps_calc.slurm#L18-L19), [`00mps_calc.slurm:29-31`](../Julia/00mps_calc.slurm#L29-L31)). These are historical values only.
+The provisional Slurm file records one node, one task, 20 CPUs, `smp` cluster and partition, 64 GiB, two hours, and a 28-element array ([`00mps_calc.slurm:2-11`](../legacy/Julia/00mps_calc.slurm#L2-L11)). It also records `OMP_NUM_THREADS=10`, a Julia 1.12.6 executable path, two truncation choices, and ordering code 1 ([`00mps_calc.slurm:18-19`](../legacy/Julia/00mps_calc.slurm#L18-L19), [`00mps_calc.slurm:29-31`](../legacy/Julia/00mps_calc.slurm#L29-L31)). These are historical values only.
 
-There is a material internal mismatch in that file: its prose says mixfrac and four tasks, while its active arrays specify 14 other fields, two modes, and 28 tasks ([`00mps_calc.slurm:13-16`](../Julia/00mps_calc.slurm#L13-L16), [`00mps_calc.slurm:21-35`](../Julia/00mps_calc.slurm#L21-L35)). The wrapper must not resolve that mismatch by choosing either side.
+There is a material internal mismatch in that file: its prose says mixfrac and four tasks, while its active arrays specify 14 other fields, two modes, and 28 tasks ([`00mps_calc.slurm:13-16`](../legacy/Julia/00mps_calc.slurm#L13-L16), [`00mps_calc.slurm:21-35`](../legacy/Julia/00mps_calc.slurm#L21-L35)). The wrapper must not resolve that mismatch by choosing either side.
 
 ## Minimal wrapper design
 
@@ -89,7 +89,7 @@ The generated Slurm script is a transport wrapper only. It must not include, cop
 ```text
 cd -- <approved-working-directory>
 export OMP_NUM_THREADS=<approved-value>
-<approved-julia-executable> <repository>/Julia/0mps_calc.jl <one-input-path> <one-mode-argument> <one-ordering-code>
+<approved-julia-executable> <repository>/legacy/Julia/0mps_calc.jl <one-input-path> <one-mode-argument> <one-ordering-code>
 ```
 
 Every token must be rendered with shell-safe quoting in the dry-run report and generated script. All paths shown in the plan must be resolved absolute paths, while `basename(input_path)` must remain unchanged so the historical result name remains unchanged.
@@ -119,7 +119,7 @@ case.ordering_label             required human-readable assertion
 case.truncation.kind            required: cutoff OR max_bond_dimension
 case.truncation.value           required one value; allowed domain unresolved (Q03)
 
-historical.julia_script         exact path to Julia/0mps_calc.jl
+historical.julia_script         exact path to legacy/Julia/0mps_calc.jl
 historical.working_directory    directory that determines historical output location
 runtime.julia_executable        exact executable path
 runtime.omp_num_threads         exact positive integer
@@ -180,7 +180,7 @@ Before approval, `plan.txt` and terminal output must show all of the following i
 
 ### Evidence-based scope estimate
 
-From the active constants, one case attempts to read exactly `501,645,312` `Float32` values, or `2,006,581,248` bytes (about 1.869 GiB), before retaining `512^3 = 134,217,728` values (512 MiB at `Float32`) ([`0mps_calc.jl:825-842`](../Julia/0mps_calc.jl#L825-L842)). A three-dimensional `512^3` tensor produces 27 qubit sites under the active tensorization. The case performs one MPS construction/truncation, one full reconstruction, and one MAT write.
+From the active constants, one case attempts to read exactly `501,645,312` `Float32` values, or `2,006,581,248` bytes (about 1.869 GiB), before retaining `512^3 = 134,217,728` values (512 MiB at `Float32`) ([`0mps_calc.jl:825-842`](../legacy/Julia/0mps_calc.jl#L825-L842)). A three-dimensional `512^3` tensor produces 27 qubit sites under the active tensorization. The case performs one MPS construction/truncation, one full reconstruction, and one MAT write.
 
 The references provide no observed peak memory, elapsed time, package-resolved performance record, or completed-job accounting. Therefore the dry run must initially report peak memory and runtime as **unknown**, not infer them from the provisional 64 GiB/two-hour request. If the owner later supplies a comparable retained job record, the plan may show that estimate with its provenance and uncertainty.
 

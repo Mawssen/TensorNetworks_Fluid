@@ -9,8 +9,8 @@ Import retains the historical MPS MKL backend and BLAS thread count of 10.
 """
 module TurbulenceTools
 
-include(joinpath(@__DIR__, "..", "Julia", "TurbulenceMPS.jl"))
-include(joinpath(@__DIR__, "..", "Julia", "TurbulenceLES.jl"))
+include("mps/api.jl")
+include("les/api.jl")
 using .TurbulenceMPS: load_centered_be_float32, compress_reconstruct, write_mps_mat
 using .TurbulenceLES: block_average, periodic_box_smooth
 
